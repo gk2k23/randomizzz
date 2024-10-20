@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.gk2k23</groupId>
+    <artifactId>randomizzz</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <micronaut.version>4.7.0</micronaut.version>
+        <sl4j.version>2.0.16</sl4j.version>
+        <junit.version>5.11.2</junit.version>
+    </properties>
+
+    <dependencies>
+        <!-- Micronaut runtime -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-runtime</artifactId>
+            <version>${micronaut.version}</version>
+        </dependency>
+
+        <!-- Dependency Injection (DI) and AOP support -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-inject</artifactId>
+            <version>${micronaut.version}</version>
+        </dependency>
+
+        <!-- Jackson for JSON serialization -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-jackson-databind</artifactId>
+            <version>${micronaut.version}</version>
+        </dependency>
+
+        <!-- Micronaut HTTP Client for service-to-service communication -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-http-client</artifactId>
+            <version>${micronaut.version}</version>
+        </dependency>
+
+        <!-- Micronaut HTTP Server -->
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-http-server-netty</artifactId> <!-- Netty is the default HTTP server for Micronaut -->
+            <version>${micronaut.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micronaut.data</groupId>
+            <artifactId>micronaut-data-mongodb</artifactId>
+            <version>4.9.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micronaut.data</groupId>
+            <artifactId>micronaut-data-document-processor</artifactId>
+            <version>4.9.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micronaut.data</groupId>
+            <artifactId>micronaut-data-processor</artifactId>
+            <version>4.9.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micronaut.mongodb</groupId>
+            <artifactId>micronaut-mongo-sync</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.3</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- SLF4J Logging implementation -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${sl4j.version}</version>
+        </dependency>
+
+        <!-- JUnit 5 for unit testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <plugins>
+            <!-- Compiler plugin for annotation processing (Micronaut's compile-time DI) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>io.micronaut</groupId>
+                            <artifactId>micronaut-inject-java</artifactId>
+                            <version>${micronaut.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut.data</groupId>
+                            <artifactId>micronaut-data-processor</artifactId>
+                            <version>4.9.5</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut.data</groupId>
+                            <artifactId>micronaut-data-document-processor</artifactId>
+                            <version>4.9.5</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!-- JAR Plugin for specifying the Main-Class in MANIFEST -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.gk2k23.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Assembly Plugin to create an executable JAR with dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <!-- Include the manifest with the main class defined -->
+                    <archive>
+                        <manifest>
+                            <mainClass>org.gk2k23.Main</mainClass> <!-- Replace with your fully qualified main class -->
+                        </manifest>
+                    </archive>
+                    <!-- Include all dependencies in the final JAR -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- This is used for the mvn target name -->
+                        <phase>package</phase> <!-- Bind to the package phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+
+
+</project>

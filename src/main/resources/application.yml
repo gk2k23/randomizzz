@@ -1,0 +1,6 @@
+micronaut:
+  server:
+    port: 8090
+
+mongodb:
+  uri: "mongodb://localhost:27017/nodes_db"
